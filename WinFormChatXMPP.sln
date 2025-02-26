@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormChatXMPP", "WinFormChatXMPP\WinFormChatXMPP.csproj", "{F538FE4B-9EEE-4288-9C4D-BB05055C5237}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F538FE4B-9EEE-4288-9C4D-BB05055C5237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F538FE4B-9EEE-4288-9C4D-BB05055C5237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F538FE4B-9EEE-4288-9C4D-BB05055C5237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F538FE4B-9EEE-4288-9C4D-BB05055C5237}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF23A3D7-BCD7-43D6-95F2-6E869796D196}
+	EndGlobalSection
+EndGlobal
