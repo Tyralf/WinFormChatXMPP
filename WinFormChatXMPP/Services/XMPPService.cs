@@ -9,6 +9,14 @@ public class XMPPService
     // Événements
     public event EventHandler<bool> ConnectionStatusChanged;
     public event EventHandler<string> ErrorOccurred;
+    public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+    public bool IsConnected => xmppClient.Connected;
+
+    public class MessageReceivedEventArgs : EventArgs
+    {
+        public string From { get; set; }
+        public string Message { get; set; }
+    }
 
     public XMPPService()
     {
@@ -20,13 +28,14 @@ public class XMPPService
         // Configurer les handlers d'événements
         xmppClient.OnConnectionStatus += XmppClient_OnConnectionStatus;
         xmppClient.OnError += XmppClient_OnError;
+        xmppClient.OnMessageIn += XmppClient_OnMessageIn;
     }
 
     public async Task<bool> Connect(string server, int port, string username, string password)
     {
         try
         {
-            // Configurer les paramètres de connexion avec les noms corrects
+            // Configurer les paramètres de connexion
             xmppClient.IMServer = server;
             xmppClient.IMPort = port;
             xmppClient.User = username;
@@ -57,29 +66,72 @@ public class XMPPService
         }
     }
 
-    // Version générique des gestionnaires d'événements
+    // Méthode pour envoyer un message
+    public async Task<bool> SendMessage(string jabberId, string message)
+    {
+        try
+        {
+            // Utiliser SendMessage avec le bon format
+            await Task.Run(() => {
+                // Préparer le message XMPP avec JabberId et contenu
+                string formattedJabberId = jabberId;
+
+                // Vérifier si le JabberId contient déjà un domaine
+                if (!formattedJabberId.Contains("@"))
+                {
+                    // Ajouter le domaine du serveur XMPP
+                    formattedJabberId = $"{formattedJabberId}@{xmppClient.IMServer}";
+                }
+
+                // Utiliser la méthode SendMessage avec le JabberId complet
+                xmppClient.SendMessage(formattedJabberId);
+
+                // Définir le contenu du message via une propriété
+                xmppClient.MessageText = message;
+            });
+            return true;
+        }
+        catch (Exception ex)
+        {
+            ErrorOccurred?.Invoke(this, $"Erreur d'envoi : {ex.Message}");
+            return false;
+        }
+    }
+
     private void XmppClient_OnConnectionStatus(object sender, EventArgs e)
     {
-        // Une version simple qui fonctionne avec n'importe quelle version
-        Console.WriteLine("Statut de connexion changé");
-
-        // Détermine si nous sommes connectés en vérifiant directement la propriété
         bool isConnected = xmppClient.Connected;
         ConnectionStatusChanged?.Invoke(this, isConnected);
     }
 
     private void XmppClient_OnError(object sender, EventArgs e)
     {
-        // Version générique qui capturera toutes les erreurs
-        // Nous essayons d'extraire le message d'erreur s'il y a une propriété pour cela
         string errorMessage = "Une erreur s'est produite avec la connexion XMPP";
 
-        // Tentative d'obtenir le message d'erreur détaillé si disponible
         if (e is XMPPErrorEventArgs xmppError)
         {
             errorMessage = $"Erreur XMPP : {xmppError.Description}";
         }
 
         ErrorOccurred?.Invoke(this, errorMessage);
+    }
+
+    private void XmppClient_OnMessageIn(object sender, XMPPMessageInEventArgs e)
+    {
+        try
+        {
+            // Utiliser messageText au lieu de Message
+            var args = new MessageReceivedEventArgs
+            {
+                From = e.From,
+                Message = e.MessageText  // Utiliser messageText comme indiqué
+            };
+
+            MessageReceived?.Invoke(this, args);
+        }
+        catch (Exception ex)
+        {
+            ErrorOccurred?.Invoke(this, $"Erreur lors du traitement du message entrant : {ex.Message}");
+        }
     }
 }

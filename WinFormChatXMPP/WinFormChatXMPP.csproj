@@ -39,6 +39,12 @@
     <Reference Include="nsoftware.IPWorks.System, Version=24.0.9168.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
       <HintPath>..\packages\nsoftware.IPWorks.24.0.9168\lib\net40\nsoftware.IPWorks.System.dll</HintPath>
     </Reference>
+    <Reference Include="nsoftware.IPWorksIoT, Version=24.0.9149.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\nsoftware.IPWorksIoT.24.0.9149\lib\net40\nsoftware.IPWorksIoT.dll</HintPath>
+    </Reference>
+    <Reference Include="nsoftware.IPWorksIoT.System, Version=24.0.9149.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\nsoftware.IPWorksIoT.24.0.9149\lib\net40\nsoftware.IPWorksIoT.System.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
